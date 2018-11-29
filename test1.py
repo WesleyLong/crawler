@@ -4,15 +4,18 @@
 @File  : douban250.py
 @Author: Wesley
 @Date  : 2018/11/23 15:39
-@Desc  : 
+@Desc  :
 '''
 import requests, re
 from bs4 import BeautifulSoup
 
 
 def download_page(url):
+    print(url)
     response = requests.get(url)
+    # print(response.text)
     soup = BeautifulSoup(response.text, "lxml")
+    # print(soup.text)
     return soup
 
 
@@ -20,16 +23,19 @@ def parse_soup(soup):
     return_list = []
     # 利用 class 属性找到 grid
     grid = soup.find("ol", attrs={"class": "grid_view"})
+    print(grid)
     # 不加 attrs= 也可以
     # grid = soup.find("ol", {"class": "grid_view"})
     if grid:
         # 利用标签获取 list
         movie_list = grid.find_all("li")
-
+        # print(movie_list)
         # 遍历 list
         for movie in movie_list:
+            # print(movie)
             # 一个电影有多个名字，这里只取第一个
             title = movie.find("span", attrs={"class": "title"}).getText()
+            # print(title)
             rating_num = movie.find("span", attrs={"class": "rating_num"}).getText()
             inq = movie.find("span", attrs={"class": "inq"})
             # 利用 text 配合正则表达式匹配搜索文本
@@ -52,9 +58,8 @@ if __name__ == "__main__":
     url = "https://movie.douban.com/top250"
     next_url = ""
     # 将结果保存到文件
-    with open("doubanMoviesTop250.txt", "w+", encoding='utf-8') as f:
-        while next_url or next_url == "":
-            soup = download_page(url + next_url)
-            movie_list, next_url = parse_soup(soup)
-            # 将 list 拆分成不同行
-            f.write("\n".join(movie_list))
+    while next_url or next_url == "":
+        soup = download_page(url + next_url)
+        movie_list, next_url = parse_soup(soup)
+        # 将 list 拆分成不同行
+        # print(movie_list, "\t", next_url)
