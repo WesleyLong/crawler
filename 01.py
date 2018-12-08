@@ -22,8 +22,9 @@ while True:
     comic = soup.select('h3')
     print(comic[0].getText())
     number = re.findall("\d+", comic[0].getText())
-    if number == []:
-        print('The end.')
-        break;
-    else:
-        url = 'http://www.heibanke.com/lesson/crawler_ex00/' + number[0]  # 拼接新地址
+    print(number)
+    # if number == []:
+    #     print('The end.')
+    #     break;
+    # else:
+    #     url = 'http://www.heibanke.com/lesson/crawler_ex00/' + number[0]  # 拼接新地址
