@@ -5,6 +5,7 @@ from lxml import html
 import os
 from multiprocessing.dummy import Pool as ThreadPool
 
+
 def header(referer):
     headers = {
         'Host': 'i.meizitu.net',
@@ -20,14 +21,16 @@ def header(referer):
     }
     return headers
 
+
 # 获取主页列表
 def getPage(pageNum):
+    print(pageNum)
     baseUrl = 'http://www.mzitu.com/page/{}'.format(pageNum)
     selector = html.fromstring(requests.get(baseUrl).content)
     urls = []
     for i in selector.xpath('//ul[@id="pins"]/li/a/@href'):
         urls.append(i)
-        print(i)
+        # print(i)
     return urls
 
 
@@ -42,19 +45,19 @@ def getPiclink(url):
     # 文件夹格式
     dirName = u"【{}P】{}".format(total, title)
     # 新建文件夹
-    os.mkdir(dirName)
+    os.mkdir('E:/picture/mzitu/' + dirName)
 
     n = 1
     for i in range(int(total)):
         # 每一页
         try:
-            link = '{}/{}'.format(url, i+1)
+            link = '{}/{}'.format(url, i + 1)
             s = html.fromstring(requests.get(link).content)
             # 图片地址在src标签中
             jpgLink = s.xpath('//div[@class="main-image"]/p/a/img/@src')[0]
             # print(jpgLink)
             # 文件写入的名称：当前路径／文件夹／文件名
-            filename = '%s/%s/%s.jpg' % (os.path.abspath('.'), dirName, n)
+            filename = '%s/%s/%s.jpg' % ('E:/picture/mzitu', dirName, n)
             print(u'开始下载图片:%s 第%s张' % (dirName, n))
             with open(filename, "wb+") as jpg:
                 jpg.write(requests.get(jpgLink, headers=header(jpgLink)).content)
@@ -64,7 +67,8 @@ def getPiclink(url):
 
 
 if __name__ == '__main__':
-    pageNum = input(u'请输入页码：')
-    p = getPage(pageNum)
-    with ThreadPool(4) as pool:
-        pool.map(getPiclink, p)
+    for i in range(4, 202):
+        p = getPage(i)
+        # print(p)
+        with ThreadPool(1) as pool:
+            pool.map(getPiclink, p)
