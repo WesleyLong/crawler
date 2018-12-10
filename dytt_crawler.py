@@ -17,8 +17,8 @@ print(response.text)
 
 soup = bs4.BeautifulSoup(response.text, "lxml")
 # print(soup.text)
-comic = soup.find_all('a')
-# print(comic[0].getText())
+comic = soup.find_all("a")
+print(comic[0].getText())
 # number = re.findall("\d+", comic[0].getText())
 # if number == []:
 #     print('The end.')
