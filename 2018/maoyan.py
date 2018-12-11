@@ -167,8 +167,9 @@ def get_numbers(u):
     maoyanFont = TTFont('maoyan.woff')
     maoyan_unicode_list = maoyanFont['cmap'].tables[0].ttFont.getGlyphOrder()
     maoyan_num_list = []
-    base_num_list = ['.', '3', '0', '8', '9', '4', '1', '5', '2', '7', '6']
-    base_unicode_list = ['x', 'uniF561', 'uniE6E1', 'uniF125', 'uniF83F', 'uniE9E2', 'uniEEA6', 'uniEEC2', 'uniED38', 'uniE538', 'uniF8E7']
+    base_num_list = ['.', '4', '5', '2', '9', '3', '6', '1', '0', '8', '7']
+    base_unicode_list = ['x', 'uniF36B', 'uniE465', 'uniED4C', 'uniF262', 'uniEB1E', 'uniE6DD',
+                       'uniF01C', 'uniF0B1', 'uniF1DB', 'uniF07E']
     for i in range(1, 12):
         maoyan_glyph = maoyanFont['glyf'][maoyan_unicode_list[i]]
         for j in range(11):
